@@ -92,14 +92,20 @@ export default function Portfolio() {
   // Ref sur la vidéo du simulateur
   const simVideoRef = useRef<HTMLVideoElement>(null);
 
-  // Callback ref : appelé synchroniquement quand l'élément est monté dans le DOM
+  // React a un bug connu : le prop "muted" JSX ne set pas toujours l'attribut HTML.
+  // Si la vidéo n'est pas muted, Chrome bloque autoPlay et toutes les tentatives play() suivantes.
+  // Solution : forcer muted + play() via DOM directement, pas via JSX.
   const simVideoCallbackRef = useCallback((el: HTMLVideoElement | null) => {
     simVideoRef.current = el;
     if (!el) return;
+    el.setAttribute("muted", "");
     el.muted = true;
+    el.defaultMuted = true;
+    el.playsInline = true;
     el.currentTime = 0;
+    el.load();
     el.play().catch(() => {});
-  }, [activeProject?.id]); // recréé à chaque changement de projet → re-déclenche play
+  }, [activeProject?.id]);
 
   // GSAP — section entrance + staggered cards (after all state declarations)
   useGSAP(() => {
