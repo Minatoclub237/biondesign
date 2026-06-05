@@ -86,36 +86,8 @@ export default function Portfolio() {
   // Scroll ref for horizontal slider
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   
-  // Video elements references (cartes portfolio)
+  // Video elements references
   const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
-
-  // Refs sur les vidéos préchargées
-  const preloadVideoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
-
-  // Container vide dans le simulateur — la vidéo y est injectée en pur JS
-  const simVideoContainerRef = useRef<HTMLDivElement>(null);
-
-  // Ouvre le simulateur ET crée la vidéo avec muted posé avant l'insertion DOM
-  const openSimulator = (project: Project) => {
-    const container = simVideoContainerRef.current;
-    if (container) {
-      // Supprimer l'ancienne vidéo si elle existe
-      const old = container.querySelector("video");
-      if (old) container.removeChild(old);
-      // Créer la vidéo avec tous les attributs HTML natifs dès la création
-      const v = document.createElement("video");
-      v.setAttribute("autoplay", "");
-      v.setAttribute("muted", "");
-      v.setAttribute("playsinline", "");
-      v.setAttribute("loop", "");
-      v.preload = "auto";
-      v.src = project.videoUrl;
-      v.style.cssText = "position:absolute;top:0;left:0;right:0;bottom:0;width:100%;height:100%;object-fit:cover;pointer-events:none;transform:scale(1.28) translateY(4%) translateX(3%);transform-origin:center";
-      container.appendChild(v);
-      v.play().catch(() => {}); // dans le geste user → autorisé partout
-    }
-    setActiveProject(project);
-  };
 
   // GSAP — section entrance + staggered cards (after all state declarations)
   useGSAP(() => {
@@ -603,7 +575,7 @@ export default function Portfolio() {
 
                 {/* Aesthetic metric pill right side conforming to capture */}
                 <button
-                  onClick={() => openSimulator(project)}
+                  onClick={() => setActiveProject(project)}
                   className="px-2.5 py-1 rounded-full bg-neutral-900 hover:bg-black text-white text-[9px] font-mono tracking-tight flex items-center gap-1.5 transition-all shadow-sm hover:scale-102 cursor-pointer"
                 >
                   <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
@@ -613,7 +585,7 @@ export default function Portfolio() {
 
               {/* Sandbox click action */}
               <button
-                onClick={() => openSimulator(project)}
+                onClick={() => setActiveProject(project)}
                 className="w-full mt-3 text-center py-2 bg-white/40 group-hover:bg-white/70 rounded-full border border-black/5 hover:border-black/[0.12] text-[9.5px] font-extrabold tracking-wide uppercase flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer"
               >
                 <Eye size={11} className="text-zinc-600" />
@@ -765,8 +737,19 @@ export default function Portfolio() {
                         <div 
                           className={`relative p-6 bg-gradient-to-br ${activeProject.gradientFrom} ${activeProject.gradientTo} text-center flex flex-col justify-between min-h-[22rem] overflow-hidden`}
                         >
-                          {/* Vidéo injectée en pur JS dans openSimulator() — muted posé avant DOM insert */}
-                          <div ref={simVideoContainerRef} className="absolute inset-0" />
+                          {/* Live simulated background video running under the layout */}
+                          <video
+                            key={activeProject.id}
+                            ref={(el) => { if (el) { el.muted = true; el.setAttribute("muted",""); } }}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            src={activeProject.videoUrl}
+                            className="absolute inset-0 w-full h-full object-cover pointer-events-none opacity-100 scale-[1.28] translate-y-[4%] translate-x-[3%] origin-center"
+                            id="simulator-bg-video-element"
+                            onError={(e) => { e.currentTarget.style.display = "none"; }}
+                          />
 
                           {/* Soft semi-transparent overlay to ensure extreme readability without any blur */}
                           <div className="absolute inset-0 bg-white/10 pointer-events-none"></div>
@@ -882,20 +865,6 @@ export default function Portfolio() {
           </div>
         )}
       </AnimatePresence>
-
-      {/* Préchargement silencieux — play() appelé ici dans le geste user (fix iOS Safari) */}
-      <div aria-hidden="true" className="sr-only pointer-events-none">
-        {projects.map(p => (
-          <video
-            key={`preload-${p.id}`}
-            ref={(el) => { preloadVideoRefs.current[p.id] = el; }}
-            src={p.videoUrl}
-            preload="auto"
-            muted
-            playsInline
-          />
-        ))}
-      </div>
 
     </section>
   );
