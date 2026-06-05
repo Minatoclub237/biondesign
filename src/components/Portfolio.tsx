@@ -94,10 +94,14 @@ export default function Portfolio() {
 
   // Force play dès que le drawer s'ouvre (activeProject change)
   useEffect(() => {
-    if (!activeProject || !simVideoRef.current) return;
-    const v = simVideoRef.current;
-    v.currentTime = 0;
-    v.play().catch(() => {});
+    if (!activeProject) return;
+    const timer = setTimeout(() => {
+      const v = simVideoRef.current;
+      if (!v) return;
+      v.currentTime = 0;
+      v.play().catch(() => {});
+    }, 80);
+    return () => clearTimeout(timer);
   }, [activeProject?.id]);
 
   // GSAP — section entrance + staggered cards (after all state declarations)
@@ -750,6 +754,7 @@ export default function Portfolio() {
                         >
                           {/* Vidéo fond simulateur — ref + preload pour lecture instantanée */}
                           <video
+                            key={activeProject.id}
                             ref={simVideoRef}
                             autoPlay
                             loop
@@ -759,6 +764,7 @@ export default function Portfolio() {
                             src={activeProject.videoUrl}
                             className="absolute inset-0 w-full h-full object-cover pointer-events-none opacity-100 scale-[1.28] translate-y-[4%] translate-x-[3%] origin-center"
                             id="simulator-bg-video-element"
+                            onCanPlay={(e) => { e.currentTarget.play().catch(() => {}); }}
                             onError={(e) => { e.currentTarget.style.display = "none"; }}
                           />
 
