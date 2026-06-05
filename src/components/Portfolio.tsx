@@ -740,7 +740,7 @@ export default function Portfolio() {
                           {/* Live simulated background video running under the layout */}
                           <video
                             key={activeProject.id}
-                            ref={(el) => { if (el) { el.muted = true; el.setAttribute("muted",""); } }}
+                            ref={(el) => { if (el) { el.muted = true; el.setAttribute("muted",""); el.play().catch(() => {}); } }}
                             autoPlay
                             loop
                             muted
