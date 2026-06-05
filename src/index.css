@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Oswald:wght@500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Orbitron:wght@600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", sans-serif;
+  --font-condensed: "Oswald", sans-serif;
+  --font-serif: "Cormorant Garamond", serif;
+  --font-tech: "Orbitron", sans-serif;
+  --color-brand-green: #9fff00;
+  --color-brand-blue: #0070f3;
+  --color-bg-base: #EDEEF5;
+}
+
+html, body, #root {
+  background-color: #EDEEF5;
+  @apply text-zinc-900 font-sans antialiased;
+}
+
+@keyframes marquee-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-right {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.animate-marquee-left {
+  animation: marquee-left 80s linear infinite;
+}
+
+.animate-marquee-right {
+  animation: marquee-right 80s linear infinite;
+}
+
+.pause-hover:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee-left,
+  .animate-marquee-right {
+    animation: none;
+  }
+}
