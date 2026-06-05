@@ -133,12 +133,8 @@ export default function Hero() {
             autoPlay loop muted playsInline
             className="w-full h-full object-contain pointer-events-none mix-blend-multiply"
             id="hero-head-video-center"
-            onError={(e) => { e.currentTarget.style.display = "none"; }}
-          >
-            <source src="/videos/hero.mp4" type="video/mp4" />
-            <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260603_132049_036591b8-6e92-4760-b94c-a7ea6eef315c.mp4" type="video/mp4" />
-          </video>
-          <div className="absolute inset-[8%] rounded-full bg-gradient-to-br from-blue-200 via-indigo-100 to-sky-200 opacity-35 mix-blend-multiply blur-3xl pointer-events-none" />
+            src="/videos/hero.mp4"
+          />
           <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-4/5 h-8 bg-zinc-950/[0.03] rounded-full blur-2xl" />
         </motion.div>
       </div>
@@ -198,12 +194,8 @@ export default function Hero() {
                 autoPlay loop muted playsInline
                 className="w-full h-full object-contain pointer-events-none mix-blend-multiply"
                 id="hero-head-video-mobile"
-                onError={(e) => { e.currentTarget.style.display = "none"; }}
-              >
-                <source src="/videos/hero.mp4" type="video/mp4" />
-                <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260603_132049_036591b8-6e92-4760-b94c-a7ea6eef315c.mp4" type="video/mp4" />
-              </video>
-              <div className="absolute inset-[10%] rounded-full bg-gradient-to-br from-blue-200 via-indigo-100 to-sky-200 opacity-30 mix-blend-multiply blur-3xl pointer-events-none" />
+                src="/videos/hero.mp4"
+              />
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-4/5 h-6 bg-zinc-950/[0.03] rounded-full blur-xl" />
             </div>
           </div>
