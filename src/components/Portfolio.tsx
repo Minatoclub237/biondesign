@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "motion/react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -89,20 +89,17 @@ export default function Portfolio() {
   // Video elements references (cartes portfolio)
   const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
 
-  // Ref sur la vidéo du simulateur — permet de forcer le play() immédiatement
+  // Ref sur la vidéo du simulateur
   const simVideoRef = useRef<HTMLVideoElement>(null);
 
-  // Force play dès que le drawer s'ouvre (activeProject change)
-  useEffect(() => {
-    if (!activeProject) return;
-    const timer = setTimeout(() => {
-      const v = simVideoRef.current;
-      if (!v) return;
-      v.currentTime = 0;
-      v.play().catch(() => {});
-    }, 80);
-    return () => clearTimeout(timer);
-  }, [activeProject?.id]);
+  // Callback ref : appelé synchroniquement quand l'élément est monté dans le DOM
+  const simVideoCallbackRef = useCallback((el: HTMLVideoElement | null) => {
+    simVideoRef.current = el;
+    if (!el) return;
+    el.muted = true;
+    el.currentTime = 0;
+    el.play().catch(() => {});
+  }, [activeProject?.id]); // recréé à chaque changement de projet → re-déclenche play
 
   // GSAP — section entrance + staggered cards (after all state declarations)
   useGSAP(() => {
@@ -755,7 +752,7 @@ export default function Portfolio() {
                           {/* Vidéo fond simulateur — ref + preload pour lecture instantanée */}
                           <video
                             key={activeProject.id}
-                            ref={simVideoRef}
+                            ref={simVideoCallbackRef}
                             autoPlay
                             loop
                             muted
