@@ -1,6 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring } from "motion/react";
 import { Sparkles, Code, Layers, Check } from "lucide-react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface FeatureCardProps {
   key?: React.Key;
@@ -117,6 +122,38 @@ export default function Services() {
   const titleX = useTransform(scrollYProgress, [0, 1], isMobile ? [-12, 12] : [-65, 65]);
   const titleXSpring = useSpring(titleX, { stiffness: 60, damping: 22 });
 
+  // GSAP — parallax en ciseau sur les 3 cartes (plans de profondeur distincts)
+  useGSAP(() => {
+    if (!sectionRef.current) return;
+
+    const st = {
+      trigger: sectionRef.current,
+      start: "top bottom",
+      end: "bottom top",
+      scrub: 1.4,
+    };
+
+    // Carte gauche (rose) — plan avant : monte vite + légère rotation CCW
+    gsap.fromTo('[data-svc-card="0"]',
+      { y: 110, rotate: 2 },
+      { y: -65,  rotate: -1, ease: "none", scrollTrigger: st }
+    );
+
+    // Carte centre (bleu) — plan neutre : mouvement doux, référence visuelle
+    gsap.fromTo('[data-svc-card="1"]',
+      { y: 45 },
+      { y: -28, ease: "none", scrollTrigger: st }
+    );
+
+    // Carte droite (violet) — plan arrière : monte moins vite + rotation CW
+    // Sens opposé en rotation = les cartes "s'écartent" visuellement
+    gsap.fromTo('[data-svc-card="2"]',
+      { y: -55, rotate: -2 },
+      { y: 90,  rotate: 1, ease: "none", scrollTrigger: st }
+    );
+
+  }, { scope: sectionRef });
+
   const servicePillars = [
     {
       icon: <Sparkles size={32} strokeWidth={2.5} className="text-white/90" />,
@@ -180,21 +217,26 @@ export default function Services() {
         </motion.div>
 
         {/* Grid utilizing CSS grid consistent with guidelines */}
-        <div 
+        <div
           className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-3 lg:gap-3 w-full max-w-[936px] mx-auto"
           id="services-grid"
         >
           {servicePillars.map((pillar, idx) => (
-            <FeatureCard
+            <div
               key={idx}
-              title={pillar.title}
-              subTitle={pillar.subTitle}
-              description={pillar.description}
-              icon={pillar.icon}
-              gradient={pillar.gradient}
-              delay={pillar.delay}
-              specs={pillar.specs}
-            />
+              data-svc-card={idx.toString()}
+              className="will-change-transform"
+            >
+              <FeatureCard
+                title={pillar.title}
+                subTitle={pillar.subTitle}
+                description={pillar.description}
+                icon={pillar.icon}
+                gradient={pillar.gradient}
+                delay={pillar.delay}
+                specs={pillar.specs}
+              />
+            </div>
           ))}
         </div>
 
