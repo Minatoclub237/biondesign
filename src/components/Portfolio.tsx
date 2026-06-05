@@ -748,20 +748,23 @@ export default function Portfolio() {
                         <div 
                           className={`relative p-6 bg-gradient-to-br ${activeProject.gradientFrom} ${activeProject.gradientTo} text-center flex flex-col justify-between min-h-[22rem] overflow-hidden`}
                         >
-                          {/* dangerouslySetInnerHTML garantit que autoplay+muted+playsinline
-                              sont posés comme attributs HTML natifs dès la création —
-                              React ne les set pas toujours correctement (bug connu muted).
-                              iOS Safari exige ces 3 attributs HTML pour autoriser l'autoplay. */}
-                          <div
+                          <video
                             key={activeProject.id}
-                            className="absolute inset-0"
-                            dangerouslySetInnerHTML={{ __html:
-                              `<video autoplay muted playsinline loop preload="auto"
-                                src="${activeProject.videoUrl}"
-                                onerror="this.style.display='none'"
-                                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;transform:scale(1.28) translateY(4%) translateX(3%);transform-origin:center">
-                              </video>`
+                            ref={(el) => {
+                              if (!el) return;
+                              el.setAttribute("muted", "");
+                              el.muted = true;
+                              el.defaultMuted = true;
+                              el.play().catch(() => {});
                             }}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            preload="auto"
+                            src={activeProject.videoUrl}
+                            className="absolute inset-0 w-full h-full object-cover pointer-events-none scale-[1.28] translate-y-[4%] translate-x-[3%] origin-center"
+                            onError={(e) => { e.currentTarget.style.display = "none"; }}
                           />
 
                           {/* Soft semi-transparent overlay to ensure extreme readability without any blur */}
