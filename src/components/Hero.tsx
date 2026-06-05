@@ -125,16 +125,20 @@ export default function Hero() {
           className="absolute w-[50%] sm:w-[45%] aspect-square rounded-full bg-brand-blue/5 blur-[100px] pointer-events-none"
         />
 
-        {/* Hero centerpiece — remplacer par votre propre vidéo : src="/videos/hero.mp4" */}
         <motion.div
           style={{ y: videoYSpring }}
           className="relative w-[850px] xl:w-[950px] aspect-square flex items-center justify-center"
         >
-          <div className="w-[560px] h-[560px] rounded-full relative overflow-hidden opacity-60 mix-blend-multiply pointer-events-none">
-            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-300 via-indigo-200 to-violet-300 animate-[spin_18s_linear_infinite] blur-[60px]" />
-            <div className="absolute inset-[15%] rounded-full bg-gradient-to-tl from-sky-200 via-white to-blue-100 animate-[spin_12s_linear_infinite_reverse] blur-[40px]" />
-            <div className="absolute inset-[30%] rounded-full bg-white/80 blur-[20px]" />
-          </div>
+          <video
+            autoPlay loop muted playsInline
+            className="w-full h-full object-contain pointer-events-none mix-blend-multiply"
+            id="hero-head-video-center"
+            onError={(e) => { e.currentTarget.style.display = "none"; }}
+          >
+            <source src="/videos/hero.mp4" type="video/mp4" />
+            <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260603_132049_036591b8-6e92-4760-b94c-a7ea6eef315c.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute inset-[8%] rounded-full bg-gradient-to-br from-blue-200 via-indigo-100 to-sky-200 opacity-35 mix-blend-multiply blur-3xl pointer-events-none" />
           <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-4/5 h-8 bg-zinc-950/[0.03] rounded-full blur-2xl" />
         </motion.div>
       </div>
@@ -189,13 +193,17 @@ export default function Hero() {
           {/* MIDDLE GAP Container - On desktop it is a spacing gap, on mobile/tablet it contains the beautifully inline enlarged Head video */}
           <div className="lg:col-span-3 flex items-center justify-center py-4 lg:py-0 pointer-events-none">
             {/* Mobile/Tablet Only: Large Head Video inline to guarantee perfect readability of text blocks */}
-            {/* Mobile centerpiece — remplacer par votre propre vidéo : src="/videos/hero.mp4" */}
-            <div className="lg:hidden relative w-full max-w-[360px] sm:max-w-[440px] aspect-square flex items-center justify-center mt-2 pb-6">
-              <div className="w-full h-full rounded-full relative overflow-hidden opacity-50 mix-blend-multiply pointer-events-none">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-300 via-indigo-200 to-violet-300 animate-[spin_18s_linear_infinite] blur-[50px]" />
-                <div className="absolute inset-[15%] rounded-full bg-gradient-to-tl from-sky-200 via-white to-blue-100 animate-[spin_12s_linear_infinite_reverse] blur-[30px]" />
-                <div className="absolute inset-[30%] rounded-full bg-white/80 blur-[15px]" />
-              </div>
+            <div className="lg:hidden relative w-full max-w-[420px] sm:max-w-[500px] aspect-square flex items-center justify-center mt-2 pb-6">
+              <video
+                autoPlay loop muted playsInline
+                className="w-full h-full object-contain pointer-events-none mix-blend-multiply"
+                id="hero-head-video-mobile"
+                onError={(e) => { e.currentTarget.style.display = "none"; }}
+              >
+                <source src="/videos/hero.mp4" type="video/mp4" />
+                <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260603_132049_036591b8-6e92-4760-b94c-a7ea6eef315c.mp4" type="video/mp4" />
+              </video>
+              <div className="absolute inset-[10%] rounded-full bg-gradient-to-br from-blue-200 via-indigo-100 to-sky-200 opacity-30 mix-blend-multiply blur-3xl pointer-events-none" />
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-4/5 h-6 bg-zinc-950/[0.03] rounded-full blur-xl" />
             </div>
           </div>
