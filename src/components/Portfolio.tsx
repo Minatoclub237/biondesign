@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "motion/react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -89,23 +89,8 @@ export default function Portfolio() {
   // Video elements references (cartes portfolio)
   const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
 
-  // Ref sur la vidéo du simulateur
-  const simVideoRef = useRef<HTMLVideoElement>(null);
-
-  // React a un bug connu : le prop "muted" JSX ne set pas toujours l'attribut HTML.
-  // Si la vidéo n'est pas muted, Chrome bloque autoPlay et toutes les tentatives play() suivantes.
-  // Solution : forcer muted + play() via DOM directement, pas via JSX.
-  const simVideoCallbackRef = useCallback((el: HTMLVideoElement | null) => {
-    simVideoRef.current = el;
-    if (!el) return;
-    el.setAttribute("muted", "");
-    el.muted = true;
-    el.defaultMuted = true;
-    el.playsInline = true;
-    el.currentTime = 0;
-    el.load();
-    el.play().catch(() => {});
-  }, [activeProject?.id]);
+  // Refs sur les vidéos préchargées — play() appelé dans le click handler (geste utilisateur iOS)
+  const preloadVideoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
 
   // GSAP — section entrance + staggered cards (after all state declarations)
   useGSAP(() => {
@@ -593,7 +578,11 @@ export default function Portfolio() {
 
                 {/* Aesthetic metric pill right side conforming to capture */}
                 <button
-                  onClick={() => setActiveProject(project)}
+                  onClick={() => {
+                    const pre = preloadVideoRefs.current[project.id];
+                    if (pre) { pre.muted = true; pre.play().catch(() => {}); }
+                    setActiveProject(project);
+                  }}
                   className="px-2.5 py-1 rounded-full bg-neutral-900 hover:bg-black text-white text-[9px] font-mono tracking-tight flex items-center gap-1.5 transition-all shadow-sm hover:scale-102 cursor-pointer"
                 >
                   <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
@@ -603,7 +592,11 @@ export default function Portfolio() {
 
               {/* Sandbox click action */}
               <button
-                onClick={() => setActiveProject(project)}
+                onClick={() => {
+                  const pre = preloadVideoRefs.current[project.id];
+                  if (pre) { pre.muted = true; pre.play().catch(() => {}); }
+                  setActiveProject(project);
+                }}
                 className="w-full mt-3 text-center py-2 bg-white/40 group-hover:bg-white/70 rounded-full border border-black/5 hover:border-black/[0.12] text-[9.5px] font-extrabold tracking-wide uppercase flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer"
               >
                 <Eye size={11} className="text-zinc-600" />
@@ -755,20 +748,20 @@ export default function Portfolio() {
                         <div 
                           className={`relative p-6 bg-gradient-to-br ${activeProject.gradientFrom} ${activeProject.gradientTo} text-center flex flex-col justify-between min-h-[22rem] overflow-hidden`}
                         >
-                          {/* Vidéo fond simulateur — ref + preload pour lecture instantanée */}
-                          <video
+                          {/* dangerouslySetInnerHTML garantit que autoplay+muted+playsinline
+                              sont posés comme attributs HTML natifs dès la création —
+                              React ne les set pas toujours correctement (bug connu muted).
+                              iOS Safari exige ces 3 attributs HTML pour autoriser l'autoplay. */}
+                          <div
                             key={activeProject.id}
-                            ref={simVideoCallbackRef}
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            preload="auto"
-                            src={activeProject.videoUrl}
-                            className="absolute inset-0 w-full h-full object-cover pointer-events-none opacity-100 scale-[1.28] translate-y-[4%] translate-x-[3%] origin-center"
-                            id="simulator-bg-video-element"
-                            onCanPlay={(e) => { e.currentTarget.play().catch(() => {}); }}
-                            onError={(e) => { e.currentTarget.style.display = "none"; }}
+                            className="absolute inset-0"
+                            dangerouslySetInnerHTML={{ __html:
+                              `<video autoplay muted playsinline loop preload="auto"
+                                src="${activeProject.videoUrl}"
+                                onerror="this.style.display='none'"
+                                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;transform:scale(1.28) translateY(4%) translateX(3%);transform-origin:center">
+                              </video>`
+                            }}
                           />
 
                           {/* Soft semi-transparent overlay to ensure extreme readability without any blur */}
@@ -886,11 +879,12 @@ export default function Portfolio() {
         )}
       </AnimatePresence>
 
-      {/* Préchargement silencieux de toutes les vidéos — lecture instantanée dans le simulateur */}
+      {/* Préchargement silencieux — play() appelé ici dans le geste user (fix iOS Safari) */}
       <div aria-hidden="true" className="sr-only pointer-events-none">
         {projects.map(p => (
           <video
             key={`preload-${p.id}`}
+            ref={(el) => { preloadVideoRefs.current[p.id] = el; }}
             src={p.videoUrl}
             preload="auto"
             muted
