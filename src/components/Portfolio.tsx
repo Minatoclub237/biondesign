@@ -1,5 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "motion/react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 import { 
   Monitor, 
   Smartphone, 
@@ -92,6 +97,34 @@ export default function Portfolio() {
   
   // Video elements references
   const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
+
+  // GSAP — section entrance + staggered cards (after all state declarations)
+  useGSAP(() => {
+    if (!sectionRef.current) return;
+
+    gsap.from("[data-portfolio='header']", {
+      y: 60, opacity: 0, duration: 1.1,
+      ease: "power3.out",
+      scrollTrigger: { trigger: sectionRef.current, start: "top 80%", once: true },
+    });
+
+    ScrollTrigger.batch("[data-portfolio='card']", {
+      onEnter: (elements) => {
+        gsap.fromTo(elements,
+          { y: 90, opacity: 0, scale: 0.97 },
+          { y: 0, opacity: 1, scale: 1, duration: 0.85, stagger: 0.12, ease: "power3.out", overwrite: true },
+        );
+      },
+      onEnterBack: (elements) => {
+        gsap.fromTo(elements,
+          { y: -40, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.6, stagger: 0.08, ease: "power2.out", overwrite: true },
+        );
+      },
+      start: "top 88%",
+    });
+
+  }, { scope: sectionRef, dependencies: [selectedCategory] });
 
   const projects: Project[] = [
     {
@@ -373,14 +406,10 @@ export default function Portfolio() {
       <div className="max-w-7xl w-full mx-auto">
         
         {/* Title and Controls Nav Row */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-black/[0.05] pb-6 mb-12 gap-6">
-          <motion.div 
+        <div data-portfolio="header" className="flex flex-col md:flex-row md:items-end justify-between border-b border-black/[0.05] pb-6 mb-12 gap-6">
+          <motion.div
             className="flex flex-col items-start text-start"
             style={{ x: titleXSpring }}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: false, amount: 0.15 }}
-            transition={{ ease: [0.16, 1, 0.3, 1], duration: 1.4 }}
           >
             <span className="text-[10px] font-mono tracking-widest text-[#1a1a1a]/60 font-extrabold uppercase mb-2">/ NOTRE VITRINE LOCALE — PARTIE 2</span>
             <h2 className="font-display font-extrabold text-2xl sm:text-4xl text-zinc-900 tracking-tight lowercase">
@@ -445,6 +474,7 @@ export default function Portfolio() {
           {filteredProjects.map((project, idx) => (
             <div
               key={project.id}
+              data-portfolio="card"
               className={`snap-start shrink-0 w-[265px] xs:w-[290px] md:w-[300px] lg:w-[268px] xl:w-[292px] p-5 rounded-[2rem] bg-gradient-to-br ${project.gradientFrom} ${project.gradientVia} ${project.gradientTo} border border-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.85),0_15px_35px_rgba(30,41,59,0.025)] flex flex-col justify-between hover:shadow-[inset_0_1px_1px_rgba(255,255,255,1),0_20px_45px_rgba(15,23,42,0.05)] transition-all duration-500`}
               id={`portfolio-card-${project.id}`}
             >
