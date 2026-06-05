@@ -86,8 +86,19 @@ export default function Portfolio() {
   // Scroll ref for horizontal slider
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   
-  // Video elements references
+  // Video elements references (cartes portfolio)
   const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
+
+  // Ref sur la vidéo du simulateur — permet de forcer le play() immédiatement
+  const simVideoRef = useRef<HTMLVideoElement>(null);
+
+  // Force play dès que le drawer s'ouvre (activeProject change)
+  useEffect(() => {
+    if (!activeProject || !simVideoRef.current) return;
+    const v = simVideoRef.current;
+    v.currentTime = 0;
+    v.play().catch(() => {});
+  }, [activeProject?.id]);
 
   // GSAP — section entrance + staggered cards (after all state declarations)
   useGSAP(() => {
@@ -737,19 +748,18 @@ export default function Portfolio() {
                         <div 
                           className={`relative p-6 bg-gradient-to-br ${activeProject.gradientFrom} ${activeProject.gradientTo} text-center flex flex-col justify-between min-h-[22rem] overflow-hidden`}
                         >
-                          {/* Live simulated background video running under the layout */}
-                          <video 
-                            autoPlay 
-                            loop 
-                            muted 
-                            playsInline 
+                          {/* Vidéo fond simulateur — ref + preload pour lecture instantanée */}
+                          <video
+                            ref={simVideoRef}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            preload="auto"
                             src={activeProject.videoUrl}
                             className="absolute inset-0 w-full h-full object-cover pointer-events-none opacity-100 scale-[1.28] translate-y-[4%] translate-x-[3%] origin-center"
                             id="simulator-bg-video-element"
-                            onError={(e) => {
-                              // Fallback if video fails to load
-                              e.currentTarget.style.display = "none";
-                            }}
+                            onError={(e) => { e.currentTarget.style.display = "none"; }}
                           />
 
                           {/* Soft semi-transparent overlay to ensure extreme readability without any blur */}
@@ -866,6 +876,19 @@ export default function Portfolio() {
           </div>
         )}
       </AnimatePresence>
+
+      {/* Préchargement silencieux de toutes les vidéos — lecture instantanée dans le simulateur */}
+      <div aria-hidden="true" className="sr-only pointer-events-none">
+        {projects.map(p => (
+          <video
+            key={`preload-${p.id}`}
+            src={p.videoUrl}
+            preload="auto"
+            muted
+            playsInline
+          />
+        ))}
+      </div>
 
     </section>
   );
