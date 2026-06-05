@@ -5,32 +5,23 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
-import { 
-  Monitor, 
-  Smartphone, 
-  Eye, 
-  Sparkles, 
-  Check, 
-  Lock, 
-  ChevronRight, 
-  Phone, 
-  Calendar, 
-  Heart, 
-  ArrowLeft, 
-  ArrowRight, 
-  Play, 
-  Pause, 
-  Video,
+import {
+  Monitor,
+  Smartphone,
+  Eye,
+  Sparkles,
+  Phone,
+  Calendar,
+  Heart,
+  ArrowLeft,
+  ArrowRight,
+  Play,
+  Pause,
   Volume2,
   VolumeX,
-  Plus,
   Shield,
-  Activity,
-  Target,
   Zap,
   Network,
-  Grid,
-  Diamond
 } from "lucide-react";
 
 // Portfolio project definition
@@ -145,7 +136,7 @@ export default function Portfolio() {
       accentSecondary: "bg-purple-950/10 text-purple-800",
       client: "Maison l'Atelier Coiffure",
       videoUrl: "/videos/salon-coiffure.mp4",
-      posterUrl: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=600&fit=crop",
+      posterUrl: "/images/poster-salon.jpg",
       metricBadge: "o 30 cases",
       features: [
         "Grille tarifaire claire avec prise de rendez-vous fluide",
@@ -179,7 +170,7 @@ export default function Portfolio() {
       accentSecondary: "bg-blue-950/10 text-blue-800",
       client: "Oishi Sushi & Ramen",
       videoUrl: "/videos/sushi-restaurant.mp4",
-      posterUrl: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=600&fit=crop",
+      posterUrl: "/images/poster-sushi.jpg",
       metricBadge: "o 30 cases",
       features: [
         "Affichage interactif et limpide de la carte sushi & ramen",
@@ -213,7 +204,7 @@ export default function Portfolio() {
       accentSecondary: "bg-blue-950/10 text-blue-800",
       client: "Carrosserie & Mécanique de l'Est",
       videoUrl: "/videos/garage-automobile.mp4",
-      posterUrl: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?q=80&w=600&fit=crop",
+      posterUrl: "/images/poster-garage.jpg",
       metricBadge: "o 30 cases",
       features: [
         "Guidage GPS instantané raccordé à Google Maps et Waze",
@@ -247,7 +238,7 @@ export default function Portfolio() {
       accentSecondary: "bg-amber-950/10 text-amber-800",
       client: "Électricité Générale du Centre",
       videoUrl: "/videos/artisan-batiment.mp4",
-      posterUrl: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=600&fit=crop",
+      posterUrl: "/images/poster-batiment.jpg",
       metricBadge: "o 30 cases",
       features: [
         "Bouton d'urgence 'Appel Direct' rétro-éclairé",
@@ -268,7 +259,7 @@ export default function Portfolio() {
   // Scroll calculation to slide 1 card at a time accurately
   const handleScroll = (direction: "left" | "right") => {
     if (scrollContainerRef.current) {
-      const { scrollLeft, clientWidth } = scrollContainerRef.current;
+      const { scrollLeft } = scrollContainerRef.current;
       // Scroll amount approximately corresponds to the width of one card plus gap (approx 320px)
       const scrollAmount = 320;
       scrollContainerRef.current.scrollTo({
@@ -471,7 +462,7 @@ export default function Portfolio() {
           className="flex gap-6 overflow-x-auto scrollbar-none scroll-smooth pb-10 px-2 -mx-2 select-none snap-x snap-mandatory"
           id="realizations-slider"
         >
-          {filteredProjects.map((project, idx) => (
+          {filteredProjects.map((project) => (
             <div
               key={project.id}
               data-portfolio="card"
