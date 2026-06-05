@@ -111,7 +111,7 @@ export default function Portfolio() {
       gradientTo: "to-emerald-50/70",
       accentSecondary: "bg-purple-950/10 text-purple-800",
       client: "Maison l'Atelier Coiffure",
-      videoUrl: "",
+      videoUrl: "/videos/salon-coiffure.mp4",
       posterUrl: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=600&fit=crop",
       metricBadge: "o 30 cases",
       features: [
@@ -145,7 +145,7 @@ export default function Portfolio() {
       gradientTo: "to-blue-50/70",
       accentSecondary: "bg-blue-950/10 text-blue-800",
       client: "Oishi Sushi & Ramen",
-      videoUrl: "",
+      videoUrl: "/videos/sushi-restaurant.mp4",
       posterUrl: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=600&fit=crop",
       metricBadge: "o 30 cases",
       features: [
@@ -179,7 +179,7 @@ export default function Portfolio() {
       gradientTo: "to-zinc-100/50",
       accentSecondary: "bg-blue-950/10 text-blue-800",
       client: "Carrosserie & Mécanique de l'Est",
-      videoUrl: "",
+      videoUrl: "/videos/garage-automobile.mp4",
       posterUrl: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?q=80&w=600&fit=crop",
       metricBadge: "o 30 cases",
       features: [
@@ -213,7 +213,7 @@ export default function Portfolio() {
       gradientTo: "to-yellow-50/70",
       accentSecondary: "bg-amber-950/10 text-amber-800",
       client: "Électricité Générale du Centre",
-      videoUrl: "",
+      videoUrl: "/videos/artisan-batiment.mp4",
       posterUrl: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=600&fit=crop",
       metricBadge: "o 30 cases",
       features: [
