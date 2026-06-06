@@ -192,7 +192,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 text-[10px] font-mono text-zinc-400">
           <span className="lowercase tracking-widest select-none">© 2026 bi.on studio — conçu en france — tous droits réservés</span>
           <div className="flex items-center gap-4">
-            <span className="lowercase hover:text-black cursor-pointer transition-colors select-none">mentions légales</span>
+            <a href="/mentions-legales.html" className="lowercase hover:text-black cursor-pointer transition-colors select-none">mentions légales</a>
             <span className="text-zinc-300 select-none">•</span>
             <span className="lowercase hover:text-black cursor-pointer transition-colors select-none">technologies de pointe</span>
           </div>
