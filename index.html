@@ -1,17 +1,150 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary SEO -->
+    <title>bi.on — Création de sites web pour artisans &amp; commerces · France, Belgique, Suisse</title>
+    <meta name="description" content="Studio bi.on : création de sites web sur-mesure pour artisans, commerces et indépendants en France, Belgique et Suisse. Visibilité Google locale, design premium, devis gratuit sous 12h." />
+    <meta name="keywords" content="création site web, site internet artisan, agence web locale, site vitrine, SEO local, référencement Google, France, Belgique, Suisse" />
+    <meta name="author" content="bi.on studio" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#121318" />
+    <link rel="canonical" href="https://bion-design.vercel.app/" />
+
+    <!-- Geo targeting -->
+    <meta name="geo.region" content="FR" />
+    <meta name="geo.placename" content="France, Belgique, Suisse" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content="bi.on" />
+    <meta property="og:title" content="bi.on — Création de sites web pour artisans &amp; commerces" />
+    <meta property="og:description" content="Sites web sur-mesure pour artisans et commerces en France, Belgique et Suisse. Visibilité Google locale, design premium, devis gratuit sous 12h." />
+    <meta property="og:url" content="https://bion-design.vercel.app/" />
+    <meta property="og:image" content="https://bion-design.vercel.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="bi.on — Création de sites web pour artisans &amp; commerces" />
+    <meta name="twitter:description" content="Sites web sur-mesure pour artisans et commerces en France, Belgique et Suisse. Visibilité Google locale, devis gratuit sous 12h." />
+    <meta name="twitter:image" content="https://bion-design.vercel.app/og-image.png" />
+
+    <!-- Icons -->
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <title>bi.on / design</title>
+
+    <!-- Structured data: Organization / LocalBusiness (service-area business) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "bi.on",
+      "alternateName": "bi.on studio",
+      "url": "https://bion-design.vercel.app/",
+      "image": "https://bion-design.vercel.app/og-image.png",
+      "logo": "https://bion-design.vercel.app/apple-touch-icon.png",
+      "description": "Studio de création de sites web sur-mesure pour artisans, commerces et indépendants en France, Belgique et Suisse. Design premium et référencement Google local.",
+      "slogan": "Des sites web qui amènent des clients",
+      "priceRange": "€€",
+      "areaServed": [
+        { "@type": "Country", "name": "France" },
+        { "@type": "Country", "name": "Belgique" },
+        { "@type": "Country", "name": "Suisse" }
+      ],
+      "knowsLanguage": ["fr"],
+      "serviceType": [
+        "Création de site web",
+        "Site vitrine",
+        "Référencement local SEO",
+        "Design web"
+      ],
+      "makesOffer": {
+        "@type": "Offer",
+        "name": "Devis gratuit sous 12h",
+        "description": "Étude d'implantation et maquette gratuite sous 12h."
+      }
+    }
+    </script>
+
+    <!-- Structured data: FAQ (boosts rich results and AI citations) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Que propose le studio bi.on ?",
+          "acceptedAnswer": { "@type": "Answer", "text": "bi.on crée des sites web sur-mesure pour les artisans, commerces et indépendants : sites vitrines, prise de rendez-vous en ligne et référencement Google local en France, Belgique et Suisse." }
+        },
+        {
+          "@type": "Question",
+          "name": "Pour quels métiers bi.on conçoit-il des sites ?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Coiffeurs, restaurateurs, garages automobiles, électriciens, artisans du bâtiment et commerces de proximité." }
+        },
+        {
+          "@type": "Question",
+          "name": "Dans quelles régions bi.on intervient-il ?",
+          "acceptedAnswer": { "@type": "Answer", "text": "bi.on accompagne les professionnels en France, en Belgique et en Suisse avec un hébergement adapté à chaque pays." }
+        },
+        {
+          "@type": "Question",
+          "name": "Comment obtenir un devis ?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Le devis est gratuit : bi.on réalise une étude d'implantation et une maquette gratuite sous 12 heures après votre demande." }
+        },
+        {
+          "@type": "Question",
+          "name": "Le site sera-t-il visible sur Google ?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Oui. Chaque site est optimisé pour le référencement local afin d'apparaître dans les recherches Google de votre ville ou quartier." }
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Contenu de secours pour les moteurs de recherche et les IA sans JavaScript.
+           Remplacé par l'application React au chargement. -->
+      <main>
+        <h1>bi.on — Création de sites web pour artisans et commerces</h1>
+        <p>Studio de création de sites internet sur-mesure pour les artisans, commerces et
+        indépendants en France, Belgique et Suisse. Nous créons votre site pour vous faire
+        connaître dans votre région, rassurer vos futurs clients et simplifier vos prises de
+        rendez-vous.</p>
+
+        <h2>Nos prestations</h2>
+        <ul>
+          <li>Sites vitrines sur-mesure au design premium</li>
+          <li>Référencement local (SEO) pour être visible sur Google</li>
+          <li>Sites rapides et optimisés pour mobile</li>
+          <li>Prise de rendez-vous et appel direct en un clic</li>
+        </ul>
+
+        <h2>Métiers accompagnés</h2>
+        <p>Coiffeurs et salons de beauté, restaurants, garages automobiles, électriciens,
+        artisans du bâtiment et commerces de proximité.</p>
+
+        <h2>Zones desservies</h2>
+        <p>France, Belgique et Suisse — avec un hébergement adapté à chaque pays.</p>
+
+        <h2>Questions fréquentes</h2>
+        <h3>Comment obtenir un devis ?</h3>
+        <p>Le devis est gratuit. Nous réalisons une étude d'implantation et une maquette
+        gratuite sous 12 heures.</p>
+        <h3>Le site sera-t-il visible sur Google ?</h3>
+        <p>Oui, chaque site est optimisé pour le référencement local afin d'apparaître dans
+        les recherches de votre ville ou quartier.</p>
+
+        <p>Demandez votre devis gratuit auprès du studio bi.on.</p>
+      </main>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-
