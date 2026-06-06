@@ -502,6 +502,7 @@ export default function Portfolio() {
                   loop
                   muted={mutedVideos}
                   playsInline
+                  preload="metadata"
                   className={`w-full h-full object-cover transition-all duration-700 ${(project.id === "sushi-restaurant" || project.id === "salon-coiffure" || project.id === "garage-automobile" || project.id === "artisan-electricien") ? "scale-[1.25] translate-y-[3%] translate-x-[3%] origin-center" : "group-hover/video:scale-103"}`}
                   onError={(e) => {
                     // Src vide ou invalide : on garde l'élément pour afficher le poster

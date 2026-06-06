@@ -16,7 +16,7 @@ import {
 
 // Importing the generated local image asset
 // @ts-ignore
-import quoteFormLandscape from "../assets/images/quote_form_landscape_1780513863277.png";
+import quoteFormLandscape from "../assets/images/quote_form_landscape.webp";
 
 export default function Contact() {
   const sectionRef = useRef<HTMLDivElement>(null);
