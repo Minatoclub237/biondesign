@@ -100,10 +100,39 @@ export default function Contact() {
   ];
 
   const countries = [
-    { id: "france", label: "France 🇫🇷", desc: "Hébergement écoresponsable local" },
-    { id: "belgique", label: "Belgique 🇧🇪", desc: "Zéro latence Bruxelles & Flandres" },
-    { id: "suisse", label: "Suisse 🇨🇭", desc: "Hébergement ultra-sécurisé & stable" }
+    { id: "france", label: "France", desc: "Hébergement écoresponsable local" },
+    { id: "belgique", label: "Belgique", desc: "Zéro latence Bruxelles & Flandres" },
+    { id: "suisse", label: "Suisse", desc: "Hébergement ultra-sécurisé & stable" }
   ];
+
+  // Real SVG flags — render identically across all OS/browsers (emoji flags fail on Windows)
+  const flagFor = (id: string) => {
+    const common = "inline-block w-5 h-3.5 rounded-[3px] shrink-0 shadow-[0_0_0_1px_rgba(255,255,255,0.12)] object-cover";
+    if (id === "france")
+      return (
+        <svg viewBox="0 0 3 2" className={common} aria-hidden="true">
+          <rect width="3" height="2" fill="#fff" />
+          <rect width="1" height="2" fill="#0055A4" />
+          <rect x="2" width="1" height="2" fill="#EF4135" />
+        </svg>
+      );
+    if (id === "belgique")
+      return (
+        <svg viewBox="0 0 3 2" className={common} aria-hidden="true">
+          <rect width="1" height="2" fill="#000" />
+          <rect x="1" width="1" height="2" fill="#FAE042" />
+          <rect x="2" width="1" height="2" fill="#ED2939" />
+        </svg>
+      );
+    // suisse
+    return (
+      <svg viewBox="0 0 32 32" className={common} aria-hidden="true">
+        <rect width="32" height="32" fill="#D52B1E" />
+        <rect x="13" y="6" width="6" height="20" fill="#fff" />
+        <rect x="6" y="13" width="20" height="6" fill="#fff" />
+      </svg>
+    );
+  };
 
   const phonePlaceholders: Record<string, string> = {
     france: "Ex. +33 6 00 00 00 00",
@@ -351,13 +380,16 @@ export default function Contact() {
                       onClick={() => setIsCountryOpen(!isCountryOpen)}
                       className="w-full bg-[#1c1d22] border border-zinc-850 hover:bg-[#202227] hover:border-zinc-700 px-4 py-3.5 rounded-xl text-left transition-all flex items-center justify-between cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#9fff00]/30 group"
                     >
-                      <div className="flex flex-col">
-                        <span className="text-xs font-bold text-white group-hover:text-zinc-200">
-                          {currentCountryObj.label}
-                        </span>
-                        <span className="text-[9px] text-zinc-500 lowercase mt-0.5">
-                          {currentCountryObj.desc}
-                        </span>
+                      <div className="flex items-center gap-2.5">
+                        {flagFor(currentCountryObj.id)}
+                        <div className="flex flex-col">
+                          <span className="text-xs font-bold text-white group-hover:text-zinc-200">
+                            {currentCountryObj.label}
+                          </span>
+                          <span className="text-[9px] text-zinc-500 lowercase mt-0.5">
+                            {currentCountryObj.desc}
+                          </span>
+                        </div>
                       </div>
                       <ChevronDown size={14} className={`text-zinc-500 group-hover:text-white transition-transform ${isCountryOpen ? 'rotate-180' : ''}`} />
                     </button>
@@ -383,13 +415,16 @@ export default function Contact() {
                                 selectedCountry === c.id ? "bg-zinc-800/50" : ""
                               }`}
                             >
-                              <div className="flex flex-col">
-                                <span className={`text-[11px] font-bold ${selectedCountry === c.id ? "text-[#9fff00]" : "text-zinc-200"}`}>
-                                  {c.label}
-                                </span>
-                                <span className="text-[9px] text-zinc-500 lowercase mt-0.5">
-                                  {c.desc}
-                                </span>
+                              <div className="flex items-center gap-2.5">
+                                {flagFor(c.id)}
+                                <div className="flex flex-col">
+                                  <span className={`text-[11px] font-bold ${selectedCountry === c.id ? "text-[#9fff00]" : "text-zinc-200"}`}>
+                                    {c.label}
+                                  </span>
+                                  <span className="text-[9px] text-zinc-500 lowercase mt-0.5">
+                                    {c.desc}
+                                  </span>
+                                </div>
                               </div>
                               {selectedCountry === c.id && (
                                 <Check size={12} className="text-[#9fff00] shrink-0 ml-2" />
