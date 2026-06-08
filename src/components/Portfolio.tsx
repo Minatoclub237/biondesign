@@ -561,35 +561,12 @@ export default function Portfolio() {
                 </p>
               </div>
 
-              {/* Bottom footer bar - Technology tags on left, dynamic custom pill metadata right */}
-              <div className="flex items-center justify-between pt-4 border-t border-black/[0.04]">
-                <div className="flex flex-wrap gap-1">
-                  {project.technologies.slice(0, 3).map((tech) => (
-                    <span 
-                      key={tech} 
-                      className={`text-[8px] font-mono uppercase font-bold tracking-tight px-1.5 py-0.5 rounded ${project.accentSecondary}`}
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Aesthetic metric pill right side conforming to capture */}
-                <button
-                  onClick={() => setActiveProject(project)}
-                  className="px-2.5 py-1 rounded-full bg-neutral-900 hover:bg-black text-white text-[9px] font-mono tracking-tight flex items-center gap-1.5 transition-all shadow-sm hover:scale-102 cursor-pointer"
-                >
-                  <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
-                  <span>{project.metricBadge}</span>
-                </button>
-              </div>
-
-              {/* Sandbox click action */}
+              {/* Primary action — large simulator button */}
               <button
                 onClick={() => setActiveProject(project)}
-                className="w-full mt-3 text-center py-2 bg-white/40 group-hover:bg-white/70 rounded-full border border-black/5 hover:border-black/[0.12] text-[9.5px] font-extrabold tracking-wide uppercase flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer"
+                className="w-full mt-2 text-center py-4 bg-neutral-900 hover:bg-black text-white rounded-2xl border border-black/10 text-[11px] sm:text-xs font-extrabold tracking-wide uppercase flex items-center justify-center gap-2 shadow-md hover:shadow-lg active:scale-[0.98] transition-all cursor-pointer"
               >
-                <Eye size={11} className="text-zinc-600" />
+                <Eye size={15} className="text-[#9fff00]" />
                 <span>simuler l'interface ↗</span>
               </button>
 
